@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class ExpenseItem extends Component {   
     createList = (item) => {
         return <li key={item.key} >{item.value} <button onClick={() => this.delete(item.key)}>Remove</button> </li>;
