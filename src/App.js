@@ -2,32 +2,41 @@ import React, { Component } from 'react';
 import Header from './components/Header'
 import AddExpense from './components/AddExpense'
 import ExpenseList from './components/ExpenseList'
+import axios from 'axios'
 
 class App extends Component {
   state = {
-    value: '',
+    expense: '',
     items: []
   }
+  
+  refresh = () => {
+    axios.get("/expense").then(res => {
+      if (res.data.payload) {
+        console.log(res.data.payload);
+      }
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     const itemList = this.state.items;
 
-    if (this.state.value !== '') {
+    if (this.state.expense !== '') {
       itemList.unshift({
-        value: this.state.value,
+        expense: this.state.expense,
         key: Date.now()
       });
     }
     this.setState({
       items: itemList,
-      value: ''
+      expense: ''
     })
   }
 
   handleChange = (e) => {
-    this.setState({ value: e.target.value });
+    this.setState({ expense: e.target.value });
   }
 
   removeItem = (key) => {
@@ -41,12 +50,16 @@ class App extends Component {
     });
   }
 
+  componentDidMount () {
+    this.refresh()
+  }
+
   render() {
     return (
       <div className="App">
         <Header title="Expense Manager" />
         <AddExpense
-          expense={this.state.value}
+          expense={this.state.expense}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />

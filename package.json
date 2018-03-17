@@ -20,5 +20,6 @@
     "eject": "react-scripts eject",
     "server": "nodemon lib/server.js  --ignore src/",
     "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
