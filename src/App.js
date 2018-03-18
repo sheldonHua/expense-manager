@@ -11,9 +11,10 @@ class App extends Component {
   }
   
   refresh = () => {
-    axios.get("/expense").then(res => {
+    axios.get("/expenses").then(res => {
       if (res.data.payload) {
         console.log(res.data.payload);
+        this.setState({ items: res.data.payload });
       }
     });
   };
@@ -21,28 +22,21 @@ class App extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    axios.post(`/expenses/${this.state.expense}`).then(this.refresh)
+
     const itemList = this.state.items;
 
-    if (this.state.expense !== '') {
-      itemList.unshift({
-        expense: this.state.expense,
-        key: Date.now()
-      });
-    }
-    this.setState({
-      items: itemList,
-      expense: ''
-    })
+    
   }
 
   handleChange = (e) => {
     this.setState({ expense: e.target.value });
   }
 
-  removeItem = (key) => {
+  removeItem = (id) => {
     const itemList = this.state.items;
     const newItemListem = itemList.filter(item => {
-      return (item.key !== key);
+      return (item._id !== id);
     });
 
     this.setState({

@@ -5,9 +5,9 @@ const ExpenseList = props => {
 
     const createList = (item) => {
         return (
-            <li key={item.key} >
-                {item.expense}
-                <button onClick={() => removeItem(item.key)}>Remove</button>
+            <li key={item._id} >
+                {item.description}
+                <button onClick={() => removeItem(item._id)}>Remove</button>
             </li>
         )
     }
