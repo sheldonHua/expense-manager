@@ -24,7 +24,6 @@ class App extends Component {
 
     axios.post(`/expenses/${this.state.expense}`).then(this.refresh)
 
-    const itemList = this.state.items;
 
     
   }
@@ -34,14 +33,8 @@ class App extends Component {
   }
 
   removeItem = (id) => {
-    const itemList = this.state.items;
-    const newItemListem = itemList.filter(item => {
-      return (item._id !== id);
-    });
 
-    this.setState({
-      items: newItemListem
-    });
+    axios.delete(`/expenses/${id}`).then(this.refresh)
   }
 
   componentDidMount () {
