@@ -1,11 +1,12 @@
 import React from 'react'
 
 const AddExpense = (props) => {
-    const { expense, handleChange, handleSubmit } = props
+    const { handleChange, handleSubmit } = props
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={expense} onChange={handleChange} />
+            <form onSubmit={handleSubmit} >
+                <input name="description" type="text"  onChange={handleChange}  />
+                <input name="cost" type="number" onChange={handleChange}  />
                 <button type="submit">Add</button>
             </form>
         </div>

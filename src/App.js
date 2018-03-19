@@ -6,7 +6,8 @@ import axios from 'axios'
 
 class App extends Component {
   state = {
-    expense: '',
+    description: '',
+    cost: undefined,
     items: []
   }
   
@@ -21,19 +22,14 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
-    axios.post(`/expenses/${this.state.expense}`).then(this.refresh)
-
-
-    
+    axios.post(`/addExpense`, { description: this.state.description, cost: this.state.cost } ).then(this.refresh)
   }
 
   handleChange = (e) => {
-    this.setState({ expense: e.target.value });
+    this.setState({ [e.target.name]: e.target.value } );
   }
 
   removeItem = (id) => {
-
     axios.delete(`/expenses/${id}`).then(this.refresh)
   }
 
