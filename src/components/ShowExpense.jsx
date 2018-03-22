@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ExpenseList = props => {
+const ShowExpense = props => {
     const { itemList, removeItem } = props
 
     const createList = (item) => {
@@ -19,4 +19,4 @@ const ExpenseList = props => {
     )
 }
 
-export default ExpenseList;
+export default ShowExpense;

@@ -1,17 +1,19 @@
 import React from 'react'
 
 const AddExpense = (props) => {
-    const { handleChange, handleSubmit } = props
+    const { description, cost , handleChange, handleSubmit, category } = props
     return (
         <div>
             <form onSubmit={handleSubmit} >
-                <input name="description" type="text"  onChange={handleChange}  />
-                <input name="cost" type="number" onChange={handleChange}  />
+                <select name="category">
+                    <option value=""></option>
+                </select>
+                <input name="description" type="text" value={description}  onChange={handleChange}  />
+                <input name="cost" type="number" value={cost} onChange={handleChange}  />
                 <button type="submit">Add</button>
             </form>
         </div>
     )
-
 }
 
 export default AddExpense

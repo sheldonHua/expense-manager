@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
 import Header from './components/Header'
 import AddExpense from './components/AddExpense'
-import ExpenseList from './components/ExpenseList'
+import ShowExpense from './components/ShowExpense'
 import axios from 'axios'
 
 class App extends Component {
   state = {
+    category: [],
     description: '',
     cost: undefined,
     items: []
+  }
+
+  category = () => {
+    axios.get("/category").then(res => {
+      if (res.data.payload) {
+        console.log(res.data.payload);
+        this.setState({ 
+          category: res.data.payload });
+      }
+    });
   }
   
   refresh = () => {
     axios.get("/expenses").then(res => {
       if (res.data.payload) {
         console.log(res.data.payload);
-        this.setState({ items: res.data.payload });
+        this.setState({ 
+          items: res.data.payload });
       }
     });
   };
 
   handleSubmit = (e) => {
+    
+    axios.post(`/addExpense`, { description: this.state.description, cost: this.state.cost } ).then(this.refresh);
+    this.setState({ description: '', cost: ''  } );
+    
     e.preventDefault();
-    axios.post(`/addExpense`, { description: this.state.description, cost: this.state.cost } ).then(this.refresh)
   }
 
   handleChange = (e) => {
@@ -34,6 +49,7 @@ class App extends Component {
   }
 
   componentDidMount () {
+    this.category()
     this.refresh()
   }
 
@@ -42,11 +58,13 @@ class App extends Component {
       <div className="App">
         <Header title="Expense Manager" />
         <AddExpense
-          expense={this.state.expense}
+          description={this.state.description}
+          cost={this.state.cost}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          category={this.state.category}
         />
-        <ExpenseList
+        <ShowExpense
           removeItem={this.removeItem}
           itemList={this.state.items}
         />
