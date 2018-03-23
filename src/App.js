@@ -7,6 +7,7 @@ import axios from 'axios'
 class App extends Component {
   state = {
     category: [],
+    selectedCategory: '',
     description: '',
     cost: undefined,
     items: []
@@ -31,7 +32,7 @@ class App extends Component {
   };
 
   handleSubmit = (e) => {
-    axios.post(`/addExpense`, { category: this.state.category ,description: this.state.description, cost: this.state.cost } ).then(this.refresh);
+    axios.post(`/addExpense`, { selectedCategory: this.state.selectedCategory ,description: this.state.description, cost: this.state.cost } ).then(this.refresh);
     this.setState({ description: '', cost: ''  } );
     
     e.preventDefault();

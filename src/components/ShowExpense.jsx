@@ -8,7 +8,7 @@ const ShowExpense = props => {
     const createList = (item) => {
         return (
             <li key={item._id} >
-                {item.category}
+                {item.selectedCategory}
                 {item.description}
                 {item.cost}
                 <button onClick={() => removeItem(item._id)}>Remove</button>

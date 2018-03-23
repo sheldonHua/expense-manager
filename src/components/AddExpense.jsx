@@ -18,7 +18,8 @@ const AddExpense = (props) => {
     return (
         <div>
             <form onSubmit={handleSubmit} >
-                <select name="category">
+                <select name="selectedCategory" onChange={handleChange} >
+                    <option>Select</option>
                     {categories.map(dropdownOptions)}
                 </select>
                 <input name="description" type="text" value={description}  onChange={handleChange}  />
