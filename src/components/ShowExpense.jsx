@@ -12,6 +12,7 @@ const ShowExpense = props => {
                 <td>{item.selectedCategory}</td>
                 <td> {item.description}</td>
                 <td>${item.cost}</td>
+                <td>{item.date}</td>
                 <td><button onClick={() => removeItem(item._id)}>Remove</button></td>
             </tr>
             
@@ -23,6 +24,7 @@ const ShowExpense = props => {
             <th>Category</th>
             <th>Description</th>
             <th>Cost</th>
+            <th>Date</th>
             <th>Remove</th>
         </tr>
             {itemList.map(createList)}

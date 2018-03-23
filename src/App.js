@@ -10,6 +10,7 @@ class App extends Component {
     selectedCategory: '',
     description: '',
     cost: undefined,
+    date: '',
     items: []
   }
 
@@ -32,7 +33,14 @@ class App extends Component {
   };
 
   handleSubmit = (e) => {
-    axios.post(`/addExpense`, { selectedCategory: this.state.selectedCategory ,description: this.state.description, cost: this.state.cost } ).then(this.refresh);
+    axios.post(`/addExpense`, 
+      { 
+        selectedCategory: this.state.selectedCategory,
+        description: this.state.description, 
+        cost: this.state.cost,
+        date: this.state.date
+      })
+      .then(this.refresh);
     this.setState({ description: '', cost: ''  } );
     
     e.preventDefault();
