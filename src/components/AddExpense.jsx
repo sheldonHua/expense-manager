@@ -1,12 +1,25 @@
 import React from 'react'
 
+
+
 const AddExpense = (props) => {
-    const { description, cost , handleChange, handleSubmit, category } = props
+    const { description, cost , handleChange, handleSubmit, categories } = props
+
+    console.log(categories[0])
+
+    const dropdownOptions = (option) => {
+       return option.category.map((item) => {
+            return (
+                <option value={item}>{item}</option>
+            )
+        })
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit} >
                 <select name="category">
-                    <option value=""></option>
+                    {categories.map(dropdownOptions)}
                 </select>
                 <input name="description" type="text" value={description}  onChange={handleChange}  />
                 <input name="cost" type="number" value={cost} onChange={handleChange}  />

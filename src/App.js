@@ -15,7 +15,6 @@ class App extends Component {
   category = () => {
     axios.get("/category").then(res => {
       if (res.data.payload) {
-        console.log(res.data.payload);
         this.setState({ 
           category: res.data.payload });
       }
@@ -25,7 +24,6 @@ class App extends Component {
   refresh = () => {
     axios.get("/expenses").then(res => {
       if (res.data.payload) {
-        console.log(res.data.payload);
         this.setState({ 
           items: res.data.payload });
       }
@@ -33,8 +31,7 @@ class App extends Component {
   };
 
   handleSubmit = (e) => {
-    
-    axios.post(`/addExpense`, { description: this.state.description, cost: this.state.cost } ).then(this.refresh);
+    axios.post(`/addExpense`, { category: this.state.category ,description: this.state.description, cost: this.state.cost } ).then(this.refresh);
     this.setState({ description: '', cost: ''  } );
     
     e.preventDefault();
@@ -62,7 +59,7 @@ class App extends Component {
           cost={this.state.cost}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          category={this.state.category}
+          categories={this.state.category}
         />
         <ShowExpense
           removeItem={this.removeItem}
