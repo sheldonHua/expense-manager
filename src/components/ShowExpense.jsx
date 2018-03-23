@@ -7,18 +7,27 @@ const ShowExpense = props => {
 
     const createList = (item) => {
         return (
-            <li key={item._id} >
-                {item.selectedCategory}
-                {item.description}
-                {item.cost}
-                <button onClick={() => removeItem(item._id)}>Remove</button>
-            </li>
+           
+            <tr key={item._id} >
+                <td>{item.selectedCategory}</td>
+                <td> {item.description}</td>
+                <td>${item.cost}</td>
+                <td><button onClick={() => removeItem(item._id)}>Remove</button></td>
+            </tr>
+            
         )
     }
     return (
-        <ul>
+        <table>
+        <tr>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Remove</th>
+        </tr>
             {itemList.map(createList)}
-        </ul>
+        </table>
+
     )
 }
 
