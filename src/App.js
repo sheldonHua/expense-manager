@@ -1,79 +1,47 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import Header from './components/Header'
-import AddExpense from './components/AddExpense'
-import ShowExpense from './components/ShowExpense'
-import axios from 'axios'
+import Login from './components/Login'
+import Dashboard from './components/Dashboard'
 
 class App extends Component {
   state = {
-    category: [],
-    selectedCategory: '',
-    description: '',
-    cost: undefined,
-    date: '',
-    items: []
-  }
-
-  category = () => {
-    axios.get("/category").then(res => {
-      if (res.data.payload) {
-        this.setState({ 
-          category: res.data.payload });
-      }
-    });
-  }
-  
-  refresh = () => {
-    axios.get("/expenses").then(res => {
-      if (res.data.payload) {
-        this.setState({ 
-          items: res.data.payload });
-      }
-    });
+    user: null
   };
-
-  handleSubmit = (e) => {
-    axios.post(`/addExpense`, 
-      { 
-        selectedCategory: this.state.selectedCategory,
-        description: this.state.description, 
-        cost: this.state.cost,
-        date: this.state.date
-      })
-      .then(this.refresh);
-    this.setState({ description: '', cost: ''  } );
-    
-    e.preventDefault();
-  }
-
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value } );
-  }
-
-  removeItem = (id) => {
-    axios.delete(`/expenses/${id}`).then(this.refresh)
-  }
-
-  componentDidMount () {
-    this.category()
-    this.refresh()
-  }
 
   render() {
     return (
       <div className="App">
         <Header title="Expense Manager" />
-        <AddExpense
-          description={this.state.description}
-          cost={this.state.cost}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          categories={this.state.category}
-        />
-        <ShowExpense
-          removeItem={this.removeItem}
-          itemList={this.state.items}
-        />
+        <Router>
+          <div>
+            <Switch>
+            <Route 
+                exact 
+                path="/login" 
+                render={ () => {
+                  if (this.state.user) {
+                    return <Redirect to="/" />;
+                  } else {
+                    return <Login />;
+                  }
+                }} 
+              />
+              <Route 
+                exact 
+                path="/" 
+                render={ () => {
+                  if (this.state.user) {
+                    return <Dashboard />
+                  } else {
+                    return <Redirect to="/login" />
+                  }
+                }} 
+              />
+            </Switch>
+          </div>
+        </Router>
       </div>
     );
   }

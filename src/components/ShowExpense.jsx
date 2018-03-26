@@ -7,7 +7,7 @@ const ShowExpense = props => {
 
     const createList = (item) => {
         return (
-           
+
             <tr key={item._id} >
                 <td>{item.selectedCategory}</td>
                 <td> {item.description}</td>
@@ -15,21 +15,22 @@ const ShowExpense = props => {
                 <td>{item.date}</td>
                 <td><button onClick={() => removeItem(item._id)}>Remove</button></td>
             </tr>
-            
+
         )
     }
     return (
         <table>
-        <tr>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Cost</th>
-            <th>Date</th>
-            <th>Remove</th>
-        </tr>
-            {itemList.map(createList)}
+            <tbody>
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                    <th>Date</th>
+                    <th>Remove</th>
+                </tr>
+                {itemList.map(createList)}
+            </tbody>
         </table>
-
     )
 }
 

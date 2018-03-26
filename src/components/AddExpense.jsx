@@ -8,9 +8,9 @@ const AddExpense = (props) => {
     console.log(categories[0])
 
     const dropdownOptions = (option) => {
-       return option.category.map((item) => {
+       return option.category.map((item, i) => {
             return (
-                <option value={item}>{item}</option>
+                <option key={i} value={item}>{item}</option>
             )
         })
     }
