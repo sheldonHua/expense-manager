@@ -50,7 +50,7 @@ class App extends Component {
   }
 
   removeItem = (id) => {
-    axios.delete(`/expenses/${id}`).then(this.refresh)
+    axios.delete(`/expense/delete/${id}`).then(this.refresh)
   }
 
   componentDidMount () {
