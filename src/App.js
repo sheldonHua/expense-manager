@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import Header from './components/Header'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
+import Signup from './components/Signup'
 
 class App extends Component {
   state = {
-    user: null
+    user: "null"
   };
 
   render() {
@@ -25,6 +26,17 @@ class App extends Component {
                     return <Redirect to="/" />;
                   } else {
                     return <Login />;
+                  }
+                }} 
+              />
+              <Route 
+                exact 
+                path="/signup" 
+                render={ () => {
+                  if (this.state.user) {
+                    return <Redirect to="/" />;
+                  } else {
+                    return <Signup setUser={this.setUser} />;
                   }
                 }} 
               />
