@@ -23,7 +23,7 @@ class App extends Component {
   }
   
   refresh = () => {
-    axios.get("/expenses").then(res => {
+    axios.get("/expense/get").then(res => {
       if (res.data.payload) {
         this.setState({ 
           items: res.data.payload });
@@ -32,7 +32,7 @@ class App extends Component {
   };
 
   handleSubmit = (e) => {
-    axios.post(`/addExpense`, 
+    axios.post('/expense/post', 
       { 
         selectedCategory: this.state.selectedCategory,
         description: this.state.description, 
