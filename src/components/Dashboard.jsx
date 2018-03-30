@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import AddExpense from './AddExpense'
 import ShowExpense from './ShowExpense'
 import axios from 'axios'
+import { getToken } from "../services/tokenService";
+import Logout from './Logout'
 
 class App extends Component {
   state = {
@@ -23,7 +25,14 @@ class App extends Component {
   }
   
   refresh = () => {
-    axios.get("/expense/get").then(res => {
+
+    const token = getToken()
+
+    axios.get("/expense/get", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => {
       if (res.data.payload) {
         this.setState({ 
           items: res.data.payload });
@@ -72,6 +81,7 @@ class App extends Component {
           removeItem={this.removeItem}
           itemList={this.state.items}
         />
+        <Logout setUser={this.props.setUser} />
       </div>
     );
   }

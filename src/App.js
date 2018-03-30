@@ -9,12 +9,12 @@ import { getToken } from './services/tokenService';
 
 class App extends Component {
   state = {
-    user: "String"
+    user: ''
   };
 
   setUser = user => {
     // Set the current user into state.
-    this.setState({ user  });
+    this.setState({ user });
   };
 
   getCurrentUser = () => {
@@ -72,7 +72,7 @@ class App extends Component {
                 path="/" 
                 render={ () => {
                   if (this.state.user) {
-                    return <Dashboard />
+                    return <Dashboard setUser={this.setUser} />
                   } else {
                     return <Redirect to="/login" />
                   }
