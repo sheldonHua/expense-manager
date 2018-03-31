@@ -18,51 +18,60 @@ class App extends Component {
   category = () => {
     axios.get("/category").then(res => {
       if (res.data.payload) {
-        this.setState({ 
-          category: res.data.payload });
+        this.setState({
+          category: res.data.payload
+        });
       }
     });
   }
-  
+
   refresh = () => {
-
     const token = getToken()
-
     axios.get("/expense/get", {
       headers: {
         Authorization: `Bearer ${token}`
       }
     }).then(res => {
       if (res.data.payload) {
-        this.setState({ 
-          items: res.data.payload });
+        this.setState({
+          items: res.data.payload
+        });
       }
     });
   };
 
   handleSubmit = (e) => {
-    axios.post('/expense/post', 
-      { 
+    const token = getToken()
+
+    axios.post('/expense/post',
+      {
         selectedCategory: this.state.selectedCategory,
-        description: this.state.description, 
+        description: this.state.description,
         cost: this.state.cost,
         date: this.state.date
-      })
+      },
+      {
+        headers: {
+          //  b - the Authorization Header Bearer <token>
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
       .then(this.refresh);
-    this.setState({ description: '', cost: ''  } );
-    
+    this.setState({ description: '', cost: '' });
+
     e.preventDefault();
   }
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value } );
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   removeItem = (id) => {
     axios.delete(`/expense/delete/${id}`).then(this.refresh)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.category()
     this.refresh()
   }
