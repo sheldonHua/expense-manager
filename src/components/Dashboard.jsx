@@ -4,15 +4,32 @@ import ShowExpense from './ShowExpense'
 import axios from 'axios'
 import { getToken } from "../services/tokenService";
 import Logout from './Logout'
+import TotalExpense from './TotalExpense'
 
-class App extends Component {
+class Dashboard extends Component {
   state = {
     category: [],
     selectedCategory: '',
     description: '',
     cost: undefined,
     date: '',
-    items: []
+    items: [],
+    totalExpense: undefined
+  }
+
+  totalSum = () => {
+    let expenses = this.state.items;
+
+    let totalExpense = expenses.map(expense => {
+      return expense.cost;
+    })
+    .reduce((total, expense) => {
+      return total + expense;
+    });
+
+    this.setState({
+      totalExpense
+    });
   }
 
   category = () => {
@@ -36,8 +53,10 @@ class App extends Component {
         this.setState({
           items: res.data.payload
         });
+        this.totalSum();
       }
     });
+   
   };
 
   handleSubmit = (e) => {
@@ -70,10 +89,10 @@ class App extends Component {
   removeItem = (id) => {
     axios.delete(`/expense/delete/${id}`).then(this.refresh)
   }
-
+  
   componentDidMount() {
-    this.category()
-    this.refresh()
+    this.category();
+    this.refresh();
   }
 
   render() {
@@ -91,9 +110,11 @@ class App extends Component {
           itemList={this.state.items}
         />
         <Logout setUser={this.props.setUser} />
+
+        <TotalExpense totalExpense={this.state.totalExpense} />
       </div>
     );
   }
 }
 
-export default App;
+export default Dashboard;
