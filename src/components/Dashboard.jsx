@@ -15,25 +15,35 @@ class Dashboard extends Component {
     cost: undefined,
     date: '',
     items: [],
+    clientItems: [],
     totalExpense: undefined,
     filter: {
-      years: []
+      years: [],
+      selected: undefined,
+      disabled: true
     }
   }
 
   totalSum = () => {
     const expenses = this.state.items;
 
-    const totalExpense = expenses.map(expense => {
-      return expense.cost;
-    })
-    .reduce((total, expense) => {
-      return total + expense;
-    });
+    if (expenses.length === 0){
+      this.setState({
+        totalExpense: 0
+      });
+    } 
+    else {
+      const totalExpense = expenses.map(expense => {
+        return expense.cost;
+      })
+      .reduce((total, expense) => {
+          return total + expense;
+      });
 
-    this.setState({
-      totalExpense
-    });
+      this.setState({
+        totalExpense
+      });
+    }
   }
 
   getYears = () => {
@@ -43,14 +53,29 @@ class Dashboard extends Component {
       return expense.date.split('-')[0];
     })
 
-    const uniq = [ ...new Set(years) ];
-
     this.setState({
       filter: {
-        years: uniq
+        years: years
       }
     })
     console.log(this.state.filter.years);
+  }
+
+  filterYear = (e) => {
+    const selectYear = e.target.value;
+    const expenses = this.state.items;
+
+    if (selectYear === 'any') {
+      this.refresh();
+    }
+
+    const filterYear = expenses.filter(expense => {
+      return expense.date.split('-')[0] === selectYear
+    });
+
+    this.setState({
+      clientItems: filterYear
+    })
   }
 
   category = () => {
@@ -72,13 +97,17 @@ class Dashboard extends Component {
     }).then(res => {
       if (res.data.payload) {
         this.setState({
-          items: res.data.payload
+          items: res.data.payload,
+          clientItems: res.data.payload,
+          filter: {
+            selected: 'selected'
+          }
         });
         this.totalSum();
         this.getYears();
       }
     });
-   
+
   };
 
   handleSubmit = (e) => {
@@ -111,7 +140,7 @@ class Dashboard extends Component {
   removeItem = (id) => {
     axios.delete(`/expense/delete/${id}`).then(this.refresh)
   }
-  
+
   componentDidMount() {
     this.category();
     this.refresh();
@@ -127,10 +156,15 @@ class Dashboard extends Component {
           handleSubmit={this.handleSubmit}
           categories={this.state.category}
         />
-        <FilterData years={this.state.filter.years} />
+        <FilterData
+          years={this.state.filter.years}
+          selected={this.state.filter.selected}
+          disabled={this.state.filter.disabled}
+          filterYear={this.filterYear}
+        />
         <ShowExpense
           removeItem={this.removeItem}
-          itemList={this.state.items}
+          itemList={this.state.clientItems}
         />
         <Logout setUser={this.props.setUser} />
 

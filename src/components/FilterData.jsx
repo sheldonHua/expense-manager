@@ -1,8 +1,8 @@
 import React from 'react';
 
-const FilterData = ({ years }) => {
+const FilterData = ({ years, filterYear, selected, disabled }) => {
 
-    console.log(years);
+    const uniqueYears = [ ...new Set(years) ]
 
     const createOptions = (item, i) => {
        return (
@@ -12,14 +12,13 @@ const FilterData = ({ years }) => {
 
     return (
         <div>
-            <select>
-                <option>Year</option>
-                {years.map(createOptions)}
+            <select onChange={filterYear}>
+                <option selected={selected} value="any">Any</option>
+                {uniqueYears.map(createOptions)}
             </select>
-            <select>
+            <select disabled={disabled}>
                 <option>Month</option>
             </select>
-            <button>Submit</button>
         </div>
     );
 }
