@@ -1,10 +1,7 @@
 import React from 'react';
 
-const ShowExpense = props => {
-    const { itemList, removeItem } = props
-
-    console.log(itemList)
-
+const ShowExpense = ({ itemList, removeItem }) => {
+  
     const createList = (item) => {
         return (
 

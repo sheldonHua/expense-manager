@@ -5,6 +5,7 @@ import axios from 'axios'
 import { getToken } from "../services/tokenService";
 import Logout from './Logout'
 import TotalExpense from './TotalExpense'
+import FilterData from './FilterData'
 
 class Dashboard extends Component {
   state = {
@@ -14,13 +15,16 @@ class Dashboard extends Component {
     cost: undefined,
     date: '',
     items: [],
-    totalExpense: undefined
+    totalExpense: undefined,
+    filter: {
+      years: []
+    }
   }
 
   totalSum = () => {
-    let expenses = this.state.items;
+    const expenses = this.state.items;
 
-    let totalExpense = expenses.map(expense => {
+    const totalExpense = expenses.map(expense => {
       return expense.cost;
     })
     .reduce((total, expense) => {
@@ -30,6 +34,23 @@ class Dashboard extends Component {
     this.setState({
       totalExpense
     });
+  }
+
+  getYears = () => {
+    const expenses = this.state.items;
+
+    const years = expenses.map(expense => {
+      return expense.date.split('-')[0];
+    })
+
+    const uniq = [ ...new Set(years) ];
+
+    this.setState({
+      filter: {
+        years: uniq
+      }
+    })
+    console.log(this.state.filter.years);
   }
 
   category = () => {
@@ -54,6 +75,7 @@ class Dashboard extends Component {
           items: res.data.payload
         });
         this.totalSum();
+        this.getYears();
       }
     });
    
@@ -105,6 +127,7 @@ class Dashboard extends Component {
           handleSubmit={this.handleSubmit}
           categories={this.state.category}
         />
+        <FilterData years={this.state.filter.years} />
         <ShowExpense
           removeItem={this.removeItem}
           itemList={this.state.items}
