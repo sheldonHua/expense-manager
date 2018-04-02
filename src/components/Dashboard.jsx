@@ -26,7 +26,7 @@ class Dashboard extends Component {
 
   totalSum = () => {
     const expenses = this.state.clientItems;
-
+  
     if (expenses.length === 0){
       this.setState({
         totalExpense: 0
@@ -65,19 +65,28 @@ class Dashboard extends Component {
     const selectYear = e.target.value;
     const expenses = this.state.items;
 
+    
     if (selectYear === 'any') {
-      this.refresh();
+      
+      this.setState({
+        clientItems: expenses
+      }, () => {
+        this.totalSum();
+      })
+    }
+    else {
+      const filterYear = expenses.filter(expense => {
+        return expense.date.split('-')[0] === selectYear
+      });
+  
+      this.setState({
+        clientItems: filterYear
+      }, () => {
+        this.totalSum();
+      })
     }
 
-    const filterYear = expenses.filter(expense => {
-      return expense.date.split('-')[0] === selectYear
-    });
-
-    this.setState({
-      clientItems: filterYear
-    }, () => {
-      this.totalSum();
-    })
+    
     
   }
 
@@ -101,10 +110,13 @@ class Dashboard extends Component {
       if (res.data.payload) {
         this.setState({
           items: res.data.payload,
-          clientItems: res.data.payload,
           filter: {
             selected: 'selected'
           }
+        }, () => {
+          this.setState({
+            clientItems: this.state.items
+          })
         });
         this.totalSum();
         this.getYears();
