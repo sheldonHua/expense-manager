@@ -25,7 +25,7 @@ class Dashboard extends Component {
   }
 
   totalSum = () => {
-    const expenses = this.state.items;
+    const expenses = this.state.clientItems;
 
     if (expenses.length === 0){
       this.setState({
@@ -75,7 +75,10 @@ class Dashboard extends Component {
 
     this.setState({
       clientItems: filterYear
+    }, () => {
+      this.totalSum();
     })
+    
   }
 
   category = () => {
@@ -107,7 +110,6 @@ class Dashboard extends Component {
         this.getYears();
       }
     });
-
   };
 
   handleSubmit = (e) => {
@@ -144,6 +146,7 @@ class Dashboard extends Component {
   componentDidMount() {
     this.category();
     this.refresh();
+    this.totalSum();
   }
 
   render() {
