@@ -19,6 +19,7 @@ class Dashboard extends Component {
     totalExpense: undefined,
     filter: {
       years: [],
+      latestYear: undefined,
       selected: undefined,
       disabled: true
     }
@@ -46,9 +47,9 @@ class Dashboard extends Component {
     }
   }
 
-  getYears = () => {
+  getDates = () => {
     const expenses = this.state.items;
-
+    
     const years = expenses.map(expense => {
       return expense.date.split('-')[0];
     })
@@ -59,15 +60,14 @@ class Dashboard extends Component {
       }
     })
     console.log(this.state.filter.years);
+    console.log(this.state.filter.months);
   }
 
   filterYear = (e) => {
     const selectYear = e.target.value;
     const expenses = this.state.items;
 
-    
     if (selectYear === 'any') {
-      
       this.setState({
         clientItems: expenses
       }, () => {
@@ -78,17 +78,64 @@ class Dashboard extends Component {
       const filterYear = expenses.filter(expense => {
         return expense.date.split('-')[0] === selectYear
       });
-  
+
       this.setState({
         clientItems: filterYear
       }, () => {
         this.totalSum();
       })
     }
-
-    
-    
   }
+
+  filterMonth = (e) => {
+    const selectMonth = e.target.value;
+    const expenses = this.state.items;
+
+    if (selectMonth === 'any') {
+      this.setState({
+        clientItems: expenses
+      }, () => {
+        this.totalSum();
+      })
+    }
+    else {
+      const filterMonth = expenses.filter(expense => {
+        return expense.date.split('-')[1] === "0"+String(selectMonth)
+      });
+  
+      this.setState({
+        clientItems: filterMonth
+      }, () => {
+        this.totalSum();
+      })
+    }
+  }
+
+  latestYear = () => {
+    const expenses = this.state.items;
+
+    const years = expenses.map(expense => {
+      return parseInt(expense.date.split('-')[0])
+    });
+
+    const latestYear = String(Math.max.apply(Math, years));
+
+    this.setState({
+      filter: {
+        latestYear
+      }
+    }, () => {
+      const filterYear = expenses.filter(expense => {
+        return expense.date.split('-')[0] === this.state.filter.latestYear;
+      });
+
+      this.setState({
+        clientItems: filterYear
+      });
+    })
+  }
+
+
 
   category = () => {
     axios.get("/category").then(res => {
@@ -119,7 +166,8 @@ class Dashboard extends Component {
           })
         });
         this.totalSum();
-        this.getYears();
+        this.latestYear();
+        this.getDates();
       }
     });
   };
@@ -159,6 +207,7 @@ class Dashboard extends Component {
     this.category();
     this.refresh();
     this.totalSum();
+    
   }
 
   render() {
@@ -173,9 +222,12 @@ class Dashboard extends Component {
         />
         <FilterData
           years={this.state.filter.years}
+          months={this.state.filter.months}
           selected={this.state.filter.selected}
           disabled={this.state.filter.disabled}
           filterYear={this.filterYear}
+          filterMonth={this.filterMonth}
+          clientItems={this.state.clientItems}
         />
         <ShowExpense
           removeItem={this.removeItem}
