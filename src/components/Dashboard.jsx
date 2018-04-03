@@ -27,19 +27,19 @@ class Dashboard extends Component {
 
   totalSum = () => {
     const expenses = this.state.clientItems;
-  
-    if (expenses.length === 0){
+
+    if (expenses.length === 0) {
       this.setState({
         totalExpense: 0
       });
-    } 
+    }
     else {
       const totalExpense = expenses.map(expense => {
         return expense.cost;
       })
-      .reduce((total, expense) => {
+        .reduce((total, expense) => {
           return total + expense;
-      });
+        });
 
       this.setState({
         totalExpense
@@ -49,7 +49,7 @@ class Dashboard extends Component {
 
   getDates = () => {
     const expenses = this.state.items;
-    
+
     const years = expenses.map(expense => {
       return expense.date.split('-')[0];
     })
@@ -67,24 +67,16 @@ class Dashboard extends Component {
     const selectYear = e.target.value;
     const expenses = this.state.items;
 
-    if (selectYear === 'any') {
-      this.setState({
-        clientItems: expenses
-      }, () => {
-        this.totalSum();
-      })
-    }
-    else {
-      const filterYear = expenses.filter(expense => {
-        return expense.date.split('-')[0] === selectYear
-      });
+    const filterYear = expenses.filter(expense => {
+      return expense.date.split('-')[0] === selectYear
+    });
 
-      this.setState({
-        clientItems: filterYear
-      }, () => {
-        this.totalSum();
-      })
-    }
+    this.setState({
+      clientItems: filterYear
+    }, () => {
+      this.totalSum();
+    })
+
   }
 
   filterMonth = (e) => {
@@ -100,9 +92,9 @@ class Dashboard extends Component {
     }
     else {
       const filterMonth = expenses.filter(expense => {
-        return expense.date.split('-')[1] === "0"+String(selectMonth)
+        return expense.date.split('-')[1] === (selectMonth < 10 ? "0" + String(selectMonth) : String(selectMonth));
       });
-  
+
       this.setState({
         clientItems: filterMonth
       }, () => {
@@ -207,7 +199,7 @@ class Dashboard extends Component {
     this.category();
     this.refresh();
     this.totalSum();
-    
+
   }
 
   render() {

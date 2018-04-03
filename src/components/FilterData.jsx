@@ -7,8 +7,6 @@ const FilterData = ({ years, months, filterYear, filterMonth, selected, disabled
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-   
-
     const createYears = (item, i) => {
        return (
            <option key={i} value={item}>{item}</option>
@@ -22,8 +20,6 @@ const FilterData = ({ years, months, filterYear, filterMonth, selected, disabled
             <option key={i} value={expense}>{monthNames[expense-1]}</option>
         )
      }
-
-     
 
     return (
         <div>
