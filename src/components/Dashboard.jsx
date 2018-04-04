@@ -80,12 +80,24 @@ class Dashboard extends Component {
     const selectYear = e.target.value;
     const expenses = this.state.items;
 
+    const years = expenses.map(expense => {
+      return expense.date.split('-')[0];
+    })
+
     const filterYear = expenses.filter(expense => {
-      return expense.date.split('-')[0] === selectYear
+      return expense.date.split('-')[0] === selectYear;
+    });
+
+    const months = filterYear.map(expense => {
+      return expense.date.split('-')[1];
     });
 
     this.setState({
-      clientItems: filterYear
+      clientItems: filterYear,
+      filter: {
+        years,
+        months
+      }
     }, () => {
       this.totalSum();
     })
@@ -93,7 +105,6 @@ class Dashboard extends Component {
   }
 
   filterMonth = (e) => {
-    alert('test');
     const selectMonth = e.target.value;
     const expenses = this.state.items;
 
@@ -106,7 +117,7 @@ class Dashboard extends Component {
     }
     else {
       const filterMonth = expenses.filter(expense => {
-        return expense.date.split('-')[1] === (selectMonth < 10 ? "0" + String(selectMonth) : String(selectMonth));
+        return expense.date.split('-')[1] === selectMonth;
       });
 
       this.setState({
