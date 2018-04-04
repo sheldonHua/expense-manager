@@ -19,6 +19,7 @@ class Dashboard extends Component {
     totalExpense: undefined,
     filter: {
       years: [],
+      months:[],
       latestYear: undefined,
       selected: undefined,
       disabled: true
@@ -60,14 +61,19 @@ class Dashboard extends Component {
       return expense.date.split('-')[0] === latestYear;
     });
 
+    const months = filterYear.map(expense => {
+      return expense.date.split('-')[1]
+    })
+
     this.setState({
       clientItems: filterYear,
       filter: {
-        years: years
+        years: years,
+        months: months
       }
     })
-    console.log(this.state.filter.years);
-    console.log(this.state.filter.months);
+    console.log('yerssss', this.state.filter.years);
+    console.log('monthssss', this.state.filter.months);
   }
 
   filterYear = (e) => {
@@ -87,6 +93,7 @@ class Dashboard extends Component {
   }
 
   filterMonth = (e) => {
+    alert('test');
     const selectMonth = e.target.value;
     const expenses = this.state.items;
 
@@ -179,8 +186,6 @@ class Dashboard extends Component {
     this.category();
     this.refresh();
     this.totalSum();
-
-
   }
 
   render() {
@@ -200,7 +205,7 @@ class Dashboard extends Component {
           disabled={this.state.filter.disabled}
           filterYear={this.filterYear}
           filterMonth={this.filterMonth}
-          clientItems={this.state.clientItems}
+        
         />
         <ShowExpense
           removeItem={this.removeItem}

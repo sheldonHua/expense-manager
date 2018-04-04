@@ -5,8 +5,6 @@ import React from 'react'
 const AddExpense = (props) => {
     const { description, cost , handleChange, handleSubmit, categories, date } = props
 
-    console.log(categories[0])
-
     const dropdownOptions = (option) => {
        return option.category.map((item, i) => {
             return (

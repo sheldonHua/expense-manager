@@ -2,8 +2,11 @@ import React from 'react';
 
 const FilterData = ({ years, months, filterYear, filterMonth, selected, disabled, clientItems }) => {
 
-    const uniqueYears = [ ...new Set(years) ]
-    
+    const uniqueYears = [ ...new Set(years) ]    
+
+    const uniqueMonths = [ ...new Set(months) ]  
+
+    console.log('monthssssssssssssssss', months)
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -14,10 +17,10 @@ const FilterData = ({ years, months, filterYear, filterMonth, selected, disabled
     }
 
     const createMonths = (item, i) => {
-        const expense = parseInt(item.date.split('-')[1])
+    
 
         return (
-            <option key={i} value={expense}>{monthNames[expense-1]}</option>
+            <option key={i} value={item}>{monthNames[item-1]}</option>
         )
      }
 
@@ -28,7 +31,7 @@ const FilterData = ({ years, months, filterYear, filterMonth, selected, disabled
             </select>
             <select onChange={filterMonth}>
                 <option value="any">Any</option>
-                {clientItems.map(createMonths)}
+                {uniqueMonths.map(createMonths)}
             </select>
         </div>
     );
