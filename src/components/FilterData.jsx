@@ -3,7 +3,7 @@ import React from 'react';
 const FilterData = ({ years, months, filterYear, filterMonth, selected, disabled, clientItems }) => {
 
     const uniqueYears = [ ...new Set(years) ]
-    const uniqueMonths = [ ...new Set(months) ]
+    
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
