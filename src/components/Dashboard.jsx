@@ -54,7 +54,14 @@ class Dashboard extends Component {
       return expense.date.split('-')[0];
     })
 
+    const latestYear = String(Math.max.apply(Math, years));
+
+    const filterYear = expenses.filter(expense => {
+      return expense.date.split('-')[0] === latestYear;
+    });
+
     this.setState({
+      clientItems: filterYear,
       filter: {
         years: years
       }
@@ -103,32 +110,6 @@ class Dashboard extends Component {
     }
   }
 
-  latestYear = () => {
-    const expenses = this.state.items;
-
-    const years = expenses.map(expense => {
-      return parseInt(expense.date.split('-')[0])
-    });
-
-    const latestYear = String(Math.max.apply(Math, years));
-
-    this.setState({
-      filter: {
-        latestYear
-      }
-    }, () => {
-      const filterYear = expenses.filter(expense => {
-        return expense.date.split('-')[0] === this.state.filter.latestYear;
-      });
-
-      this.setState({
-        clientItems: filterYear
-      });
-    })
-  }
-
-
-
   category = () => {
     axios.get("/category").then(res => {
       if (res.data.payload) {
@@ -158,7 +139,6 @@ class Dashboard extends Component {
           })
         });
         this.totalSum();
-        this.latestYear();
         this.getDates();
       }
     });
@@ -199,6 +179,7 @@ class Dashboard extends Component {
     this.category();
     this.refresh();
     this.totalSum();
+
 
   }
 
