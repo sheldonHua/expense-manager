@@ -9,7 +9,8 @@ import { getToken } from './services/tokenService';
 
 class App extends Component {
   state = {
-    user: ''
+    user: '',
+    token: null
   };
 
   setUser = user => {
@@ -17,9 +18,15 @@ class App extends Component {
     this.setState({ user });
   };
 
+  componentDidMount() {
+    // When the app loads, try and get the current user
+    this.getCurrentUser()
+  }
+
   getCurrentUser = () => {
     // 1. Try and retrieve the user's token
     const token = getToken();
+
     // 2. If they have a token, make a request to /user/current for their user details
     if (token) {
       axios.get('/user/current', {
