@@ -73,6 +73,8 @@ class Dashboard extends Component {
         years: years,
         months: months
       }
+    }, () => {
+      this.totalSum();
     })
   }
 
@@ -157,7 +159,6 @@ class Dashboard extends Component {
             clientItems: this.state.items
           })
         });
-        this.totalSum();
         this.getDates();
       }
     });
