@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 const AddExpense = (props) => {
     const { description, cost , handleChange, handleSubmit, categories, date } = props
 
@@ -21,7 +19,7 @@ const AddExpense = (props) => {
                     {categories.map(dropdownOptions)}
                 </select>
                 <input name="description" type="text" value={description}  onChange={handleChange}  />
-                <input name="cost" type="number" value={cost} onChange={handleChange}  />
+                <input name="cost" type="number" step="any" value={cost} onChange={handleChange}  />
                 <input name="date" type="date" value={date} onChange={handleChange}  />
                 <button type="submit">Add</button>
             </form>
