@@ -16,6 +16,7 @@ class Dashboard extends Component {
     date: '',
     items: [],
     clientItems: [],
+    filterYear: [],
     totalExpense: undefined,
     filter: {
       years: [],
@@ -67,13 +68,12 @@ class Dashboard extends Component {
 
     this.setState({
       clientItems: filterYear,
+      filterYear,
       filter: {
         years: years,
         months: months
       }
     })
-    console.log('yerssss', this.state.filter.years);
-    console.log('monthssss', this.state.filter.months);
   }
 
   filterYear = (e) => {
@@ -94,6 +94,7 @@ class Dashboard extends Component {
 
     this.setState({
       clientItems: filterYear,
+      filterYear,
       filter: {
         years,
         months
@@ -110,7 +111,7 @@ class Dashboard extends Component {
 
     if (selectMonth === 'any') {
       this.setState({
-        clientItems: expenses
+        clientItems: this.state.filterYear
       }, () => {
         this.totalSum();
       })
