@@ -66,11 +66,11 @@ class App extends Component {
               <Route 
                 exact 
                 path="/signup" 
-                render={ () => {
+                render={ (props) => {
                   if (this.state.user) {
                     return <Redirect to="/" />;
                   } else {
-                    return <Signup setUser={this.setUser} />;
+                    return <Signup history={props.history} setUser={this.setUser} />;
                   }
                 }} 
               />
@@ -78,7 +78,7 @@ class App extends Component {
                 exact 
                 path="/" 
                 render={ () => {
-                  if (this.state.user) {
+                  if (this.state.user ) {
                     return <Dashboard setUser={this.setUser} />
                   } else {
                     return <Redirect to="/login" />

@@ -21,7 +21,9 @@ class Signup extends Component {
          // 3. if successful, set user into state
          if (res.status === 200) {
            const user = res.data.payload
-           this.props.setUser(user)
+          //  this.props.setUser(user)
+          console.log(this.props.history);
+          this.props.history.push('/login')
          }
       })
   };
